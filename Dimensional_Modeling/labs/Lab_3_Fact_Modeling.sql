@@ -74,4 +74,13 @@ g.visitor_team_id,
  where row_num = 1;
 
  select * from fct_game_details;
- 
+
+ select dim_player_name,
+ dim_is_playing_at_home,
+ count(1) as num_games,
+ sum(mm_pts) as total_points,
+ count(case when dim_not_with_team then 1 end) as bailed_num,
+ cast(count(case when dim_not_with_team then 1 end) as real )/count(1) as bail_pct
+from fct_game_details
+group by 1 
+order by 4 desc;
